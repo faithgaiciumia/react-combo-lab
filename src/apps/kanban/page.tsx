@@ -1,12 +1,7 @@
-import { Button } from "@/components/ui/button";
 import TasksCard from "./components/TasksCard";
-import { useState } from "react";
 import AddNewDialog from "./components/AddNewDialog";
 
 export default function Kanban() {
-  const [todoTasks, setTodoTasks] = useState([]);
-  const [inProgressTasks, setInProgressTasks] = useState([]);
-  const [doneTasks, setDoneTasks] = useState([]);
   return (
     <div className="p-4">
       {/* heading */}
