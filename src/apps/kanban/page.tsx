@@ -1,7 +1,9 @@
 import TasksCard from "./components/TasksCard";
 import AddNewDialog from "./components/AddNewDialog";
+import useTasksStore from "./store/useTasksStore";
 
 export default function Kanban() {
+  const { todoTasks, inProgress, done } = useTasksStore();
   return (
     <div className="p-4">
       {/* heading */}
@@ -16,15 +18,21 @@ export default function Kanban() {
       <div className="grid md:grid-cols-3 gap-2 my-4 min-h-[50vh]">
         <div className="bg-sky-200 p-2 shadow-sm rounded-sm">
           <h2 className="mb-2 font-bold text-md">To-Do (10)</h2>
-          <TasksCard />
+          {todoTasks.map((task) => (
+            <TasksCard key={task.id} taskName={task.taskName} />
+          ))}
         </div>
         <div className="bg-amber-200 p-2 shadow-sm rounded-sm">
           <h2 className="mb-2 font-bold text-md">In Progress (10)</h2>
-          <TasksCard />
+          {inProgress.map((task) => (
+            <TasksCard key={task.id} taskName={task.taskName} />
+          ))}
         </div>
         <div className="bg-teal-200 p-2 shadow-sm rounded-sm">
           <h2 className="mb-2 font-bold text-md">Done (10)</h2>
-          <TasksCard />
+          {done.map((task) => (
+            <TasksCard key={task.id} taskName={task.taskName} />
+          ))}
         </div>
       </div>
     </div>
