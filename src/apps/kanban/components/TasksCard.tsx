@@ -10,13 +10,14 @@ import {
   DialogContent,
   DialogDescription,
   DialogHeader,
-  DialogTitle
+  DialogTitle,
 } from "@/components/ui/dialog";
 import { useDraggable } from "@dnd-kit/core";
 import { CSS } from "@dnd-kit/utilities";
 import { Edit, MoreVertical, Trash, GripVertical } from "lucide-react";
 import useTasksStore from "../store/useTasksStore";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { Input } from "@/components/ui/input";
 
 export default function TasksCard({
   taskName,
@@ -37,6 +38,24 @@ export default function TasksCard({
 
   const { removeTask } = useTasksStore();
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [editingMode, setEditingMode] = useState(false);
+  const [inputValue, setInputValue] = useState(taskName);
+  const inputRef = useRef<HTMLInputElement>(null);
+  const { updateTaskName } = useTasksStore();
+
+  useEffect(() => {
+    if (editingMode && inputRef.current) {
+      inputRef.current.focus();
+      inputRef.current.select();
+    }
+  }, [editingMode]);
+
+  const handleSave = () => {
+    if (inputValue.trim() !== taskName) {
+      updateTaskName(taskId, inputValue);
+    }
+    setEditingMode(false);
+  };
 
   return (
     <div
@@ -55,7 +74,26 @@ export default function TasksCard({
         </div>
 
         {/* Task name */}
-        <span className="text-sm flex-1 px-2">{taskName}</span>
+
+        {editingMode ? (
+          <Input
+            value={inputValue}
+            ref={inputRef}
+            onChange={(e) => setInputValue(e.target.value)}
+            onBlur={handleSave}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") handleSave();
+              if (e.key === "Escape") setEditingMode(false);
+            }}
+          />
+        ) : (
+          <span
+            className="text-sm flex-1 px-2 cursor-text"
+            onDoubleClick={() => setEditingMode(true)}
+          >
+            {taskName}
+          </span>
+        )}
 
         {/* Actions menu */}
         <DropdownMenu>
@@ -68,8 +106,7 @@ export default function TasksCard({
             <DropdownMenuItem
               onClick={(e) => {
                 e.stopPropagation();
-                // TODO: open your edit dialog here
-                console.log("Edit clicked:", taskId);
+                setEditingMode(true);
               }}
               className="flex items-center gap-2"
             >
@@ -100,7 +137,10 @@ export default function TasksCard({
             </DialogDescription>
           </DialogHeader>
           <div className="flex justify-end gap-2 mt-4">
-            <Button variant="outline" onClick={() => setDeleteDialogOpen(false)}>
+            <Button
+              variant="outline"
+              onClick={() => setDeleteDialogOpen(false)}
+            >
               Cancel
             </Button>
             <Button

@@ -14,6 +14,7 @@ interface TaskStore {
   addTask: (task: Task) => void;
   moveTask: (id: number, newStatus: "todo" | "inProgress" | "done") => void;
   removeTask: (id: number) => void;
+  updateTaskName: (id: number, taskName: string) => void;
 }
 
 const useTasksStore = create<TaskStore>()(
@@ -42,7 +43,6 @@ const useTasksStore = create<TaskStore>()(
           let updatedInProgress = [...state.inProgress];
           let updatedDone = [...state.done];
 
-          // remove from todo
           updatedTodoTasks = updatedTodoTasks.filter((task) => {
             if (task.id === id) {
               taskToMove = { ...task, status: newStatus };
@@ -51,7 +51,6 @@ const useTasksStore = create<TaskStore>()(
             return true;
           });
 
-          // remove from inProgress
           if (!taskToMove) {
             updatedInProgress = updatedInProgress.filter((task) => {
               if (task.id === id) {
@@ -62,7 +61,6 @@ const useTasksStore = create<TaskStore>()(
             });
           }
 
-          // remove from done
           if (!taskToMove) {
             updatedDone = updatedDone.filter((task) => {
               if (task.id === id) {
@@ -73,7 +71,6 @@ const useTasksStore = create<TaskStore>()(
             });
           }
 
-          // add to new status
           if (taskToMove) {
             if (newStatus === "todo") {
               updatedTodoTasks = [...updatedTodoTasks, taskToMove];
@@ -97,6 +94,18 @@ const useTasksStore = create<TaskStore>()(
           inProgress: state.inProgress.filter((task) => task.id !== id),
           done: state.done.filter((task) => task.id !== id),
         })),
+
+      updateTaskName: (id: number, taskName: string) =>
+        set((state) => {
+          const update = (tasks: Task[]) =>
+            tasks.map((t) => (t.id === id ? { ...t, taskName } : t));
+
+          return {
+            todoTasks: update(state.todoTasks),
+            inProgress: update(state.inProgress),
+            done: update(state.done),
+          };
+        }),
     }),
     {
       name: "tasks-storage",
