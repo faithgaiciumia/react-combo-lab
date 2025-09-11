@@ -4,11 +4,10 @@ import {
   Card,
   CardAction,
   CardContent,
-  CardDescription,  
+  CardDescription,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-
 
 const miniProjects = [
   {
@@ -28,6 +27,18 @@ const miniProjects = [
     description: "A simplified kanban board",
     features: ["State Management", "Components", "Drag-and-drop"],
     href: "/kanban",
+  },
+  {
+    name: "E-Commerce Product Catalog",
+    description: "A product catalog page for a fake/sample e-commerce store",
+    features: [
+      "Lists Display",
+      "Array Filtering",
+      "Products Search",
+      "Products Sort",
+      "Cart Logic",
+    ],
+    href: "/catalog",
   },
 ];
 function App() {
