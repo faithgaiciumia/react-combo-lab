@@ -9,7 +9,14 @@ import {
 import type { Product } from "../data/products";
 import { Button } from "@/components/ui/button";
 
-export default function ProductCard({ product }: { product: Product }) {
+
+export default function ProductCard({
+  product,
+  addItemToCart
+}: {
+  product: Product;
+  addItemToCart:(newCartItem:Product)=>void;
+}) {
   return (
     <Card>
       <CardHeader>
@@ -30,7 +37,9 @@ export default function ProductCard({ product }: { product: Product }) {
       </CardContent>
       <CardFooter className="items-center justify-between">
         <p className="font-bold">${product.price}</p>
-        <Button className="bg-purple-600 hover:bg-purple-800">Add to Cart</Button>
+        <Button className="bg-purple-600 hover:bg-purple-800" onClick={()=>addItemToCart(product)}>
+          Add to Cart
+        </Button>
       </CardFooter>
     </Card>
   );

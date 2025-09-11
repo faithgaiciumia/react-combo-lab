@@ -15,7 +15,7 @@ export default function Cart({ cartItems }: { cartItems: Product[] }) {
   return (
     <Dialog>
       <DialogTrigger>
-        <Button variant={"outline"} className="shadow-none">
+        <Button variant={"ghost"} className="shadow-none">
           <ShoppingCart />
           <Badge className="w-[16px] h-[16px]">1</Badge>
         </Button>
@@ -33,17 +33,21 @@ export default function Cart({ cartItems }: { cartItems: Product[] }) {
           <Separator />
         </div>
         <div>
-          <CartItemCard />
-          <CartItemCard />
-          <CartItemCard />
+          {cartItems.map((item)=>(<CartItemCard key={item.id}/>))}
         </div>
-        <div><Separator/></div>
+        <div>
+          <Separator />
+        </div>
         <div className="flex justify-end items-center">
-            <span className="text-sm font-bold">Total: Ksh. 3,200</span>
+          <span className="text-sm font-bold">Total: Ksh. 3,200</span>
         </div>
         <div className="flex justify-end gap-2">
-            <Button variant={"ghost"} className="hover:bg-purple-300">Continue Shopping</Button>
-            <Button className="bg-purple-600 hover:bg-purple-800">Checkout</Button>
+          <Button variant={"ghost"} className="hover:bg-purple-300">
+            Continue Shopping
+          </Button>
+          <Button className="bg-purple-600 hover:bg-purple-800">
+            Checkout
+          </Button>
         </div>
       </DialogContent>
     </Dialog>

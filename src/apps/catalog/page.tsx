@@ -12,7 +12,17 @@ export default function Catalog() {
     useState<Product[]>(allProducts);
   const [searchTerm, setSearchTerm] = useState("");
   const [activeCategory, setActiveCategory] = useState("All");
-  const [cartItems, setCartItems] = useState<Product[]>([]);
+
+  const savedCart = localStorage.getItem("cart");
+  const initialCart: Product[] = savedCart ? JSON.parse(savedCart) : [];
+  const [cartItems, setCartItems] = useState<Product[]>(initialCart);
+  const addItemToCart = (newCartItem: Product) => {
+    setCartItems((prev) => {
+      const updated = [...prev, newCartItem];
+      localStorage.setItem("cart", JSON.stringify(updated));
+      return updated;
+    });
+  };
 
   const applyFilter = (category: string) => {
     setActiveCategory(category);
@@ -44,7 +54,7 @@ export default function Catalog() {
             <h1 className="font-bold text-lg">E-Commerce Store</h1>
           </div>
           <div>
-            <Cart cartItems={cartItems}/>
+            <Cart cartItems={cartItems} />
           </div>
         </div>
         <div>
@@ -56,7 +66,7 @@ export default function Catalog() {
         </div>
       </div>
       <Filters applyFilter={applyFilter} activeCategory={activeCategory} />
-      <ProductGrid products={productsToDisplay} />
+      <ProductGrid products={productsToDisplay} addItemToCart={addItemToCart} />
     </div>
   );
 }
