@@ -4,12 +4,15 @@ import ProductGrid from "./components/ProductGrid";
 import { products, type Product } from "./data/products";
 import { Input } from "@/components/ui/input";
 
+import Cart from "./components/Cart";
+
 export default function Catalog() {
   const allProducts = products;
   const [productsToDisplay, setProductsToDisplay] =
     useState<Product[]>(allProducts);
   const [searchTerm, setSearchTerm] = useState("");
   const [activeCategory, setActiveCategory] = useState("All");
+  const [cartItems, setCartItems] = useState<Product[]>([]);
 
   const applyFilter = (category: string) => {
     setActiveCategory(category);
@@ -36,8 +39,13 @@ export default function Catalog() {
   return (
     <div className="p-4">
       <div>
-        <div className="flex justify-center my-4">
-          <h1 className="font-bold text-lg">E-Commerce Store</h1>
+        <div className="flex justify-between items-center my-4">
+          <div>
+            <h1 className="font-bold text-lg">E-Commerce Store</h1>
+          </div>
+          <div>
+            <Cart cartItems={cartItems}/>
+          </div>
         </div>
         <div>
           <Input

@@ -30,7 +30,7 @@ export default function ProductCard({ product }: { product: Product }) {
       </CardContent>
       <CardFooter className="items-center justify-between">
         <p className="font-bold">${product.price}</p>
-        <Button>Add to Cart</Button>
+        <Button className="bg-purple-600 hover:bg-purple-800">Add to Cart</Button>
       </CardFooter>
     </Card>
   );

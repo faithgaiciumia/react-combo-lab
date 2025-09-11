@@ -13,7 +13,7 @@ createRoot(document.getElementById("root")!).render(
         <Route path="/" element={<App />} />
         <Route path="/github" element={<Github />} />
         <Route path="/kanban" element={<Kanban />} />
-        <Route path="/catalog" element={<Catalog />} />
+        <Route path="/catalog" element={<Catalog />} />        
       </Routes>
     </BrowserRouter>
   </StrictMode>
