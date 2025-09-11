@@ -12,7 +12,13 @@ import type { Product } from "../data/products";
 import CartItemCard from "./CartItemCard";
 import { Separator } from "@/components/ui/separator";
 import { useState } from "react";
-export default function Cart({ cartItems }: { cartItems: Product[] }) {
+export default function Cart({
+  cartItems,
+  removeItemFromCart,
+}: {
+  cartItems: Product[];
+  removeItemFromCart: (cartItem: Product) => void;
+}) {
   const [quantities, setQuantities] = useState<Record<string, number>>({});
   const handleQuantityChange = (id: number, newQuantity: number) => {
     setQuantities((prev) => ({
@@ -36,40 +42,49 @@ export default function Cart({ cartItems }: { cartItems: Product[] }) {
         <DialogHeader>
           <DialogTitle>Cart</DialogTitle>
         </DialogHeader>
-        <div className="flex items-center justify-between mt-4">
-          <span className="text-sm">PRODUCT</span>
-          <span className="text-sm">QUANTITY</span>
-          <span className="text-sm">TOTAL</span>
-        </div>
-        <div>
-          <Separator />
-        </div>
-        <div>
-          {cartItems.map((item) => (
-            <CartItemCard
-              key={item.id}
-              cartItem={item}
-              quantity={quantities[item.id] || 1}
-              onQuantityChange={(newQuantity) =>
-                handleQuantityChange(item.id, newQuantity)
-              }
-            />
-          ))}
-        </div>
-        <div>
-          <Separator />
-        </div>
-        <div className="flex justify-end items-center">
-          <span className="text-sm font-bold">Total: {grandTotal}</span>
-        </div>
-        <div className="flex justify-end gap-2">
-          <Button variant={"ghost"} className="hover:bg-purple-300">
-            Continue Shopping
-          </Button>
-          <Button className="bg-purple-600 hover:bg-purple-800">
-            Checkout
-          </Button>
-        </div>
+        {cartItems.length > 0 ? (
+          <>
+            <div className="flex items-center justify-between mt-4">
+              <span className="text-sm">PRODUCT</span>
+              <span className="text-sm">QUANTITY</span>
+              <span className="text-sm">TOTAL</span>
+            </div>
+            <div>
+              <Separator />
+            </div>
+            <div>
+              {cartItems.map((item) => (
+                <CartItemCard
+                  key={item.id}
+                  cartItem={item}
+                  quantity={quantities[item.id] || 1}
+                  onQuantityChange={(newQuantity) =>
+                    handleQuantityChange(item.id, newQuantity)
+                  }
+                  removeItemFromCart={removeItemFromCart}
+                />
+              ))}
+            </div>
+            <div>
+              <Separator />
+            </div>
+            <div className="flex justify-end items-center">
+              <span className="text-sm font-bold">Total: ${grandTotal}</span>
+            </div>
+            <div className="flex justify-end gap-2">
+              <Button variant={"ghost"} className="hover:bg-purple-300">
+                Continue Shopping
+              </Button>
+              <Button className="bg-purple-600 hover:bg-purple-800">
+                Checkout
+              </Button>
+            </div>
+          </>
+        ) : (
+          <div className="flex justify-center">
+            <h2>Your Cart is Empty</h2>
+          </div>
+        )}
       </DialogContent>
     </Dialog>
   );

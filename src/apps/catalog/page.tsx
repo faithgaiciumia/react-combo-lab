@@ -23,6 +23,13 @@ export default function Catalog() {
       return updated;
     });
   };
+  const removeItemFromCart = (cartItem: Product) => {
+    setCartItems((prev) => {
+      const filtered = prev.filter((item) => item.id !== cartItem.id);
+        localStorage.setItem("cart", JSON.stringify(filtered));
+        return filtered;
+    });
+  };
 
   const applyFilter = (category: string) => {
     setActiveCategory(category);
@@ -54,7 +61,7 @@ export default function Catalog() {
             <h1 className="font-bold text-lg">E-Commerce Store</h1>
           </div>
           <div>
-            <Cart cartItems={cartItems} />
+            <Cart cartItems={cartItems} removeItemFromCart={removeItemFromCart} />
           </div>
         </div>
         <div>
