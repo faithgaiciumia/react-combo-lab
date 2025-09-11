@@ -11,13 +11,25 @@ import { ShoppingCart } from "lucide-react";
 import type { Product } from "../data/products";
 import CartItemCard from "./CartItemCard";
 import { Separator } from "@/components/ui/separator";
+import { useState } from "react";
 export default function Cart({ cartItems }: { cartItems: Product[] }) {
+  const [quantities, setQuantities] = useState<Record<string, number>>({});
+  const handleQuantityChange = (id: number, newQuantity: number) => {
+    setQuantities((prev) => ({
+      ...prev,
+      [id]: Math.max(newQuantity, 1),
+    }));
+  };
+  const grandTotal = cartItems.reduce((acc, item) => {
+    const qty = quantities[item.id] || 1;
+    return acc + qty * item.price;
+  }, 0);
   return (
     <Dialog>
       <DialogTrigger>
         <Button variant={"ghost"} className="shadow-none">
           <ShoppingCart />
-          <Badge className="w-[16px] h-[16px]">1</Badge>
+          <Badge className="w-[16px] h-[16px]">{cartItems.length}</Badge>
         </Button>
       </DialogTrigger>
       <DialogContent>
@@ -33,13 +45,22 @@ export default function Cart({ cartItems }: { cartItems: Product[] }) {
           <Separator />
         </div>
         <div>
-          {cartItems.map((item)=>(<CartItemCard key={item.id}/>))}
+          {cartItems.map((item) => (
+            <CartItemCard
+              key={item.id}
+              cartItem={item}
+              quantity={quantities[item.id] || 1}
+              onQuantityChange={(newQuantity) =>
+                handleQuantityChange(item.id, newQuantity)
+              }
+            />
+          ))}
         </div>
         <div>
           <Separator />
         </div>
         <div className="flex justify-end items-center">
-          <span className="text-sm font-bold">Total: Ksh. 3,200</span>
+          <span className="text-sm font-bold">Total: {grandTotal}</span>
         </div>
         <div className="flex justify-end gap-2">
           <Button variant={"ghost"} className="hover:bg-purple-300">
