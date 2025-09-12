@@ -40,6 +40,18 @@ const miniProjects = [
     ],
     href: "/catalog",
   },
+  {
+    name: "Form-Builder and Validator",
+    description:
+      "A dynamic form builder where user can add fields and validation rules",
+    features: [
+      "Lists Display and Reordering",
+      "Live Preview and Updates",
+      "Save and Export",
+      "State Error Tracking",
+    ],
+    href: "/formbuilder",
+  },
 ];
 function App() {
   return (
