@@ -16,7 +16,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
-import {  X } from "lucide-react";
+import { X } from "lucide-react";
 import { useState } from "react";
 import type { FormField } from "../page";
 import FieldCard from "./FieldCard";
@@ -24,9 +24,11 @@ import FieldCard from "./FieldCard";
 export default function BuilderPanel({
   addFormField,
   formFields,
+  clearAllFields,
 }: {
   addFormField: (newField: FormField) => void;
   formFields: FormField[];
+  clearAllFields: () => void;
 }) {
   const [type, setType] = useState<"text" | "email" | "number" | "select" | "">(
     ""
@@ -64,6 +66,7 @@ export default function BuilderPanel({
     setSingleOption("");
     setRequired(false);
   };
+
   return (
     <div className="w-[100%] p-2 rounded-md shadow-md">
       <div className="flex justify-between items-center">
@@ -163,7 +166,7 @@ export default function BuilderPanel({
               </form>
             </DialogContent>
           </Dialog>
-          <Button>Clear All</Button>
+          <Button onClick={clearAllFields}>Clear All</Button>
         </div>
       </div>
       <div className="grid grid-cols-2 gap-2 my-4">
