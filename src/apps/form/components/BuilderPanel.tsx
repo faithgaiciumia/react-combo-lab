@@ -17,13 +17,13 @@ import {
 } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
 import { X } from "lucide-react";
-import { useState, type SetStateAction } from "react";
+import { useState } from "react";
 import type { FormField } from "../page";
 
 export default function BuilderPanel({
-  setFormFields,
+  addFormField,
 }: {
-  setFormFields: React.Dispatch<SetStateAction<FormField[]>>;
+  addFormField:(newField:FormField)=>void;
 }) {
   const [type, setType] = useState<"text" | "email" | "number" | "select" | "">(
     ""
@@ -52,7 +52,7 @@ export default function BuilderPanel({
       options: type === "select" ? options : [],
       required,
     };
-    setFormFields((prev) => [...prev, newField]);
+    addFormField (newField);
 
     //reset fields
     setType("");
