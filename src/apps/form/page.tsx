@@ -32,7 +32,7 @@ export default function FormBuilder() {
         <h1 className="font-bold text-xl">Form Builder</h1>
       </div>
       <div className="grid grid-cols-2 gap-4 my-2">
-        <BuilderPanel addFormField={addFormField} />
+        <BuilderPanel addFormField={addFormField} formFields={formFields}/>
         <FormPreview formFields={formFields}/>
       </div>
     </div>

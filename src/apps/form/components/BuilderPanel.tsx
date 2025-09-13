@@ -16,15 +16,17 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
-import { X } from "lucide-react";
+import {  X } from "lucide-react";
 import { useState } from "react";
 import type { FormField } from "../page";
 import FieldCard from "./FieldCard";
 
 export default function BuilderPanel({
   addFormField,
+  formFields,
 }: {
   addFormField: (newField: FormField) => void;
+  formFields: FormField[];
 }) {
   const [type, setType] = useState<"text" | "email" | "number" | "select" | "">(
     ""
@@ -165,8 +167,9 @@ export default function BuilderPanel({
         </div>
       </div>
       <div className="grid grid-cols-2 gap-2 my-4">
-        <FieldCard/>
-        <FieldCard/>
+        {formFields.map((field) => (
+          <FieldCard field={field} key={field.id} />
+        ))}
       </div>
     </div>
   );
