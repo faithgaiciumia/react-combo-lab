@@ -21,37 +21,45 @@ export default function FormPreview({
       <div>
         <h1 className="font-bold text-md">Form Preview</h1>
       </div>
-      <div className="my-4">
-        <form className="flex flex-col gap-2">
-          {formFields.map((field, index) =>
-            field.type !== "select" ? (
-              <div key={index} className="flex flex-col gap-2">
-                <Label>{field.label}</Label>
-                <Input type={field.type} />
-              </div>
-            ) : (
-              <div key={index} className="flex flex-col gap-2">
-                <Label>{field.label}</Label>
-                <Select>
-                  <SelectTrigger className="w-[100%]">
-                    <SelectValue placeholder="Select Option" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {field.options?.map((option, index) => (
-                      <SelectItem value={option} key={index}>
-                        {option}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-            )
-          )}
-          <div className="flex justify-center items-center my-4">
-            <Button className="bg-teal-600 w-[50%]">Submit</Button>
-          </div>
-        </form>
-      </div>
+      {formFields.length > 0 ? (
+        <div className="my-4">
+          <form className="flex flex-col gap-2">
+            {formFields.map((field, index) =>
+              field.type !== "select" ? (
+                <div key={index} className="flex flex-col gap-2">
+                  <Label>{field.label}</Label>
+                  <Input type={field.type} />
+                </div>
+              ) : (
+                <div key={index} className="flex flex-col gap-2">
+                  <Label>{field.label}</Label>
+                  <Select>
+                    <SelectTrigger className="w-[100%]">
+                      <SelectValue placeholder="Select Option" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {field.options?.map((option, index) => (
+                        <SelectItem value={option} key={index}>
+                          {option}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+              )
+            )}
+            <div className="flex justify-center items-center my-4">
+              <Button className="bg-teal-600 w-[50%]">Submit</Button>
+            </div>
+          </form>
+        </div>
+      ) : (
+        <div className="flex items-center justify-center my-4">
+          <h3 className="font-semibold text-sm">
+            You do not have any saved fields yet.
+          </h3>
+        </div>
+      )}
     </div>
   );
 }
