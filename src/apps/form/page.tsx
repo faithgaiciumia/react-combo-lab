@@ -41,6 +41,14 @@ export default function FormBuilder() {
       return updated;
     });
   };
+
+  const deleteFormField = (id: string) => {
+    setFormFields((prev) => {
+      const updated = prev.filter((field) => field.id !== id);
+      localStorage.setItem("formFields", JSON.stringify(updated));
+      return updated;
+    });
+  };
   return (
     <div className="p-4">
       <div className="flex justify-center">
@@ -51,7 +59,8 @@ export default function FormBuilder() {
           addFormField={addFormField}
           formFields={formFields}
           clearAllFields={clearAllFields}
-          editFormField = {editFormField}
+          editFormField={editFormField}
+          deleteFormField = {deleteFormField}
         />
         <FormPreview formFields={formFields} />
       </div>

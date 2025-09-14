@@ -8,16 +8,26 @@ import {
 import { MoreVertical } from "lucide-react";
 import type { FormField } from "../page";
 import { useState } from "react";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import EditForm from "./EditForm";
+import { DialogDescription } from "@radix-ui/react-dialog";
 export default function FieldCard({
   field,
   editFormField,
+  deleteFormField,
 }: {
   field: FormField;
   editFormField: (id: string, updatedData: Partial<FormField>) => void;
+  deleteFormField: (id: string) => void;
 }) {
   const [editFormOpen, setEditFormOpen] = useState(false);
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+
   return (
     <div className="border-gray-500 border-1 rounded-md p-4">
       <div>
@@ -35,7 +45,9 @@ export default function FieldCard({
               <DropdownMenuItem onClick={() => setEditFormOpen(true)}>
                 Edit
               </DropdownMenuItem>
-              <DropdownMenuItem>Delete</DropdownMenuItem>
+              <DropdownMenuItem onClick={() => setDeleteDialogOpen(true)}>
+                Delete
+              </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
@@ -73,6 +85,21 @@ export default function FieldCard({
               }}
               onCancel={() => setEditFormOpen(false)}
             />
+          </DialogContent>
+        </Dialog>
+        {/* delete dialog */}
+        <Dialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Delete Field</DialogTitle>
+              <DialogDescription className="text-sm">
+                Are you sure you want to permanently delete the field?
+              </DialogDescription>
+            </DialogHeader>
+            <div className="flex items-center justify-end gap-2">
+              <Button onClick={() => setDeleteDialogOpen(false)}>Cancel</Button>
+              <Button variant={"destructive"} onClick={()=>deleteFormField(field.id)}>Delete</Button>
+            </div>
           </DialogContent>
         </Dialog>
       </div>

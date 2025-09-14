@@ -26,11 +26,13 @@ export default function BuilderPanel({
   formFields,
   clearAllFields,
   editFormField,
+  deleteFormField
 }: {
   addFormField: (newField: FormField) => void;
   formFields: FormField[];
   clearAllFields: () => void;
   editFormField: (id: string, updatedData: Partial<FormField>) => void;
+  deleteFormField:(id:string) => void;
 }) {
   const [type, setType] = useState<"text" | "email" | "number" | "select" | "">(
     ""
@@ -173,7 +175,7 @@ export default function BuilderPanel({
       </div>
       <div className="grid grid-cols-2 gap-2 my-4">
         {formFields.map((field) => (
-          <FieldCard field={field} key={field.id} editFormField={editFormField}/>
+          <FieldCard field={field} key={field.id} editFormField={editFormField} deleteFormField={deleteFormField}/>
         ))}
       </div>
     </div>
