@@ -7,7 +7,17 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { MoreVertical } from "lucide-react";
 import type { FormField } from "../page";
-export default function FieldCard({ field }: { field: FormField }) {
+import { useState } from "react";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import EditForm from "./EditForm";
+export default function FieldCard({
+  field,
+  editFormField,
+}: {
+  field: FormField;
+  editFormField: (id: string, updatedData: Partial<FormField>) => void;
+}) {
+  const [editFormOpen, setEditFormOpen] = useState(false);
   return (
     <div className="border-gray-500 border-1 rounded-md p-4">
       <div>
@@ -22,7 +32,9 @@ export default function FieldCard({ field }: { field: FormField }) {
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent>
-              <DropdownMenuItem>Edit</DropdownMenuItem>
+              <DropdownMenuItem onClick={() => setEditFormOpen(true)}>
+                Edit
+              </DropdownMenuItem>
               <DropdownMenuItem>Delete</DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
@@ -47,6 +59,22 @@ export default function FieldCard({ field }: { field: FormField }) {
             <h4 className="text-red-600 text-sm font-bold">*Required</h4>
           </div>
         )}
+        {/* edit form dialog */}
+        <Dialog open={editFormOpen} onOpenChange={setEditFormOpen}>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Edit Field</DialogTitle>
+            </DialogHeader>
+            <EditForm
+              field={field}
+              onSave={(updatedData) => {
+                editFormField(field.id, updatedData);
+                setEditFormOpen(false);
+              }}
+              onCancel={() => setEditFormOpen(false)}
+            />
+          </DialogContent>
+        </Dialog>
       </div>
     </div>
   );
