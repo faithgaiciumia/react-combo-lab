@@ -1,7 +1,9 @@
+import TopNav from "./components/TopNav";
+
 export default function Dashboard(){
     return(
         <div>
-            <h1>Dashboard with charts</h1>
+            <TopNav/>
         </div>
     )
 }
