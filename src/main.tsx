@@ -6,6 +6,7 @@ import Github from "./apps/github/page.tsx";
 import Kanban from "./apps/kanban/page.tsx";
 import Catalog from "./apps/catalog/page.tsx";
 import FormBuilder from "./apps/form/page.tsx";
+import Dashboard from "./apps/dashboard/page.tsx";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
@@ -15,7 +16,8 @@ createRoot(document.getElementById("root")!).render(
         <Route path="/github" element={<Github />} />
         <Route path="/kanban" element={<Kanban />} />
         <Route path="/catalog" element={<Catalog />} />
-        <Route path="/formbuilder" element={<FormBuilder />} />        
+        <Route path="/formbuilder" element={<FormBuilder />} />
+        <Route path="/dashboard" element={<Dashboard />} />        
       </Routes>
     </BrowserRouter>
   </StrictMode>

@@ -52,6 +52,17 @@ const miniProjects = [
     ],
     href: "/formbuilder",
   },
+  {
+    name:"Dashboard with Charts",
+    description:"Dashboard that fetches data and displays it in summary cards and charts",
+    features:[
+      "Data Fetching",
+      "UI Libraries Integration",
+      "Data Transformations",
+      "Controlled Components"
+    ],
+    href:"/dashboard"
+  }
 ];
 function App() {
   return (
